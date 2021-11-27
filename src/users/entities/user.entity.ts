@@ -39,10 +39,14 @@ export class UserEntity {
   @Type(() => UserStatsEntity)
   stats: UserStatsEntity;
 
-  @ApiProperty({ name: 'admin', description: 'User: 0 Admin:1', example: '1' })
+  @ApiProperty({
+    name: 'isAdmin',
+    description: 'User: 0 Admin:1',
+    example: '1',
+  })
   @Expose()
   @Type(() => Boolean)
-  admin: boolean;
+  isAdmin: boolean;
 
   constructor(partial: Partial<UserEntity>) {
     Object.assign(this, partial);

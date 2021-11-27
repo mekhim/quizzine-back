@@ -19,6 +19,7 @@ import { UsersDao } from './dao/users.dao';
 import { User } from './schemas/user.schema';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Stats } from './users.types';
 
 @Injectable()
 export class UsersService {
@@ -100,5 +101,16 @@ export class UsersService {
     of({
       ...user,
       image: 'https://randomuser.me/api/portraits/lego/6.jpg',
+      stats: this._defaultStats(),
+      isAdmin: false,
     });
+
+  private _defaultStats = (): Stats => {
+    const stats = {
+      exp: 0,
+      goodAnswers: 0,
+      totalAnswers: 0,
+    };
+    return stats;
+  };
 }

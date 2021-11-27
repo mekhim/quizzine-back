@@ -73,7 +73,7 @@ export class User {
     type: Boolean,
     required: true,
   })
-  admin: boolean;
+  isAdmin: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

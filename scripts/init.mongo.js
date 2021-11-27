@@ -1,6 +1,10 @@
-export const USERS = [
+/**
+ * This script is to insert initial data inside the collection users of the database quizzine
+ * You can use it with mongo-shell or a tool like Robo3T
+ */
+
+db.getCollection('users').insertMany([
   {
-    id: '13',
     image: 'https://randomuser.me/portraits/men/55.jpg',
     email: 'michel.berger@gmail.com',
     username: 'Michel',
@@ -10,10 +14,9 @@ export const USERS = [
       goodAnswers: 1000,
       totalAnswers: 2000,
     },
-    isAdmin: 1,
+    isAdmin: true,
   },
   {
-    id: '616c89480d3add70a9346441',
     image: 'https://randomuser.me/portraits/men/56.jpg',
     email: 'france.gall@gmail.com',
     username: 'France',
@@ -23,6 +26,8 @@ export const USERS = [
       goodAnswers: 990,
       totalAnswers: 2000,
     },
-    isAdmin: 0,
+    isAdmin: false,
   },
-];
+]);
+
+db.getCollection('users').find({});

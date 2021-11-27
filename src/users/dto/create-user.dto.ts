@@ -15,4 +15,13 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   username: string;
+
+  @ApiProperty({
+    name: 'password',
+    description: 'Password',
+    example: 'P4s$WoRd!',
+  })
+  @IsString()
+  @IsNotEmpty()
+  password: string;
 }
