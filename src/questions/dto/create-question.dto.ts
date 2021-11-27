@@ -1,5 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import {
+  ArrayMaxSize,
+  ArrayMinSize,
+  IsArray,
+  IsNotEmpty,
+  IsString,
+  Length,
+} from 'class-validator';
 
 export class CreateQuestionDto {
   @ApiProperty({
@@ -8,6 +15,7 @@ export class CreateQuestionDto {
     example: 'Comment est votre blanquette ?',
   })
   @IsString()
+  @IsNotEmpty()
   question: string;
 
   @ApiProperty({
@@ -15,7 +23,11 @@ export class CreateQuestionDto {
     description: 'Array of answers, the first is the right answer',
     example: '["oui","non","pourquoi pas"]',
   })
+  @IsArray()
+  @ArrayMinSize(2)
+  @ArrayMaxSize(6)
   @IsString({ each: true })
+  @IsNotEmpty()
   answers: string[];
 
   @ApiProperty({
@@ -23,6 +35,9 @@ export class CreateQuestionDto {
     description: 'Questions themes',
     example: '["viande","Gastronomie française"]',
   })
+  @IsArray()
+  @ArrayMinSize(2)
   @IsString({ each: true })
+  @IsNotEmpty()
   tags: string[];
 }

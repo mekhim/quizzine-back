@@ -1,0 +1,11 @@
+server:
+  host: localhost
+  port: 3000
+swagger:
+  title: Quizzine
+  description: The Quizzine API description
+  version: 1.0
+  tag: questions
+  path: documentation
+mongodb:
+  uri: mongodb://0.0.0.0:27017/nwt

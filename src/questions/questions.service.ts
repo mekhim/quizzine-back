@@ -15,6 +15,11 @@ export class QuestionsService {
     }));
   }
 
+  /**
+   * return all the existing questions in the database
+   *
+   * @returns {Observable<QuestionEntity[] | void>}
+   */
   findAll = (): Observable<QuestionEntity[] | void> =>
     of(this._questions).pipe(
       map((_: Question[]) =>
@@ -24,6 +29,11 @@ export class QuestionsService {
       ),
     );
 
+  /**
+   * Return a question of the database matching id in parameter
+   * @param {string } id of the question
+   * @return {Observable<QuestionEntity>}
+   */
   findOne = (id: string): Observable<QuestionEntity> =>
     from(this._questions).pipe(
       find((_: Question) => _.id === id),
@@ -35,6 +45,7 @@ export class QuestionsService {
             ),
       ),
     );
+
   /**
    * Function to parse date and return timestamp
    *
