@@ -30,7 +30,6 @@ export class QuestionsService {
 
   /**
    * return all the existing questions in the database
-   *
    * @returns {Observable<QuestionEntity[] | void>}
    */
   findAll = (): Observable<QuestionEntity[] | void> =>
@@ -46,7 +45,7 @@ export class QuestionsService {
    * @return {Observable<QuestionEntity>}
    */
   findOne = (id: string): Observable<QuestionEntity> =>
-    this._questionsDao.findOne(id).pipe(
+    this._questionsDao.findById(id).pipe(
       catchError((e) =>
         throwError(() => new UnprocessableEntityException(e.message)),
       ),
@@ -59,6 +58,11 @@ export class QuestionsService {
       ),
     );
 
+  /**
+   * Check if question already exists and add it in the data base
+   * @param question to create
+   * @returns {Observable<QuestionEntity>}
+   */
   create = (question: CreateQuestionDto): Observable<QuestionEntity> =>
     this._addDateQuestion(question).pipe(
       mergeMap((_: CreateQuestionDto) => this._questionsDao.save(_)),
@@ -70,6 +74,12 @@ export class QuestionsService {
       map((_: Q) => new QuestionEntity(_)),
     );
 
+  /**
+   * Update a question in the data base
+   * @param {string} id of the question to update
+   * @param question data to update
+   * @returns {Observable<QestionEntity>}
+   */
   update = (
     id: string,
     question: UpdateQuestionDto,
@@ -92,6 +102,11 @@ export class QuestionsService {
       ),
     );
 
+  /**
+   * Deletes one question in the data base
+   * @param {string} id of the question to delete
+   * @returns {Observable<void>}
+   */
   delete = (id: string): Observable<void> =>
     this._questionsDao.findByIdAndRemove(id).pipe(
       catchError((e) =>
@@ -105,9 +120,10 @@ export class QuestionsService {
             ),
       ),
     );
+
   /**
-   * Add question with current date
-   * @param question to add
+   * Add the current date to a question
+   * @param question which will receive the current date
    * @return {Observable<CreateQuestionDto>}
    * @private
    */
@@ -122,11 +138,8 @@ export class QuestionsService {
 
   /**
    * Function to parse date and return timestamp
-   *
    * @param {string} date to parse
-   *
    * @returns {number} timestamp
-   *
    * @private
    */
   private _parseDate = (date: string): number => {
