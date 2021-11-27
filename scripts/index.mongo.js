@@ -4,3 +4,5 @@
  */
 db.getCollection('users').createIndex({ username: 1 }, { unique: true });
 db.getCollection('users').createIndex({ email: 1 }, { unique: true });
+
+db.getCollection('questions').createIndex(({ id: 1 }, { unique: true }));
