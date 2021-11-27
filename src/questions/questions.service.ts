@@ -1,19 +1,32 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { QUESTIONS } from '../data/questions';
 import { QuestionEntity } from './entities/question.entity';
-import { find, from, map, mergeMap, Observable, of, throwError } from 'rxjs';
-import { Question } from './questions.type';
+import {
+  catchError,
+  defaultIfEmpty,
+  filter,
+  find,
+  findIndex,
+  from,
+  map,
+  mergeMap,
+  Observable,
+  of,
+  throwError,
+} from 'rxjs';
+import { QuestionsDao } from './dao/questions.dao';
+import { Question as Q } from './schemas/question.schema';
+import { CreateQuestionDto } from './dto/create-question.dto';
+import { UpdateQuestionDto } from './dto/update-question.dto';
 
 @Injectable()
 export class QuestionsService {
-  private _questions: Question[];
-
-  constructor() {
-    this._questions = [].concat(QUESTIONS).map((question) => ({
-      ...question,
-      date: this._parseDate(question.date),
-    }));
-  }
+  constructor(private readonly _questionsDao: QuestionsDao) {}
 
   /**
    * return all the existing questions in the database
@@ -21,12 +34,10 @@ export class QuestionsService {
    * @returns {Observable<QuestionEntity[] | void>}
    */
   findAll = (): Observable<QuestionEntity[] | void> =>
-    of(this._questions).pipe(
-      map((_: Question[]) =>
-        !!_ && !!_.length
-          ? _.map((__: Question) => new QuestionEntity(__))
-          : undefined,
-      ),
+    this._questionsDao.findAll().pipe(
+      filter((_: Q[]) => !!_),
+      map((_: Q[]) => _.map((__: Q) => new QuestionEntity(__))),
+      defaultIfEmpty(undefined),
     );
 
   /**
@@ -35,9 +46,11 @@ export class QuestionsService {
    * @return {Observable<QuestionEntity>}
    */
   findOne = (id: string): Observable<QuestionEntity> =>
-    from(this._questions).pipe(
-      find((_: Question) => _.id === id),
-      mergeMap((_: Question) =>
+    this._questionsDao.findOne(id).pipe(
+      catchError((e) =>
+        throwError(() => new UnprocessableEntityException(e.message)),
+      ),
+      mergeMap((_: Q) =>
         !!_
           ? of(new QuestionEntity(_))
           : throwError(
@@ -45,6 +58,67 @@ export class QuestionsService {
             ),
       ),
     );
+
+  create = (question: CreateQuestionDto): Observable<QuestionEntity> =>
+    this._addDateQuestion(question).pipe(
+      mergeMap((_: CreateQuestionDto) => this._questionsDao.save(_)),
+      catchError((e) =>
+        e.code === 11000
+          ? throwError(new ConflictException())
+          : throwError(new UnprocessableEntityException()),
+      ),
+      map((_: Q) => new QuestionEntity(_)),
+    );
+
+  update = (
+    id: string,
+    question: UpdateQuestionDto,
+  ): Observable<QuestionEntity> =>
+    this._addDateQuestion(question).pipe(
+      mergeMap((_: CreateQuestionDto) =>
+        this._questionsDao.findByIdAndUpdate(id, _),
+      ),
+      catchError((e) =>
+        e.code === 11000
+          ? throwError(new ConflictException())
+          : throwError(new UnprocessableEntityException()),
+      ),
+      mergeMap((_: Q) =>
+        !!_
+          ? of(new QuestionEntity(_))
+          : throwError(
+              () => new NotFoundException(`Question with id '${id}' not found`),
+            ),
+      ),
+    );
+
+  delete = (id: string): Observable<void> =>
+    this._questionsDao.findByIdAndRemove(id).pipe(
+      catchError((e) =>
+        throwError(() => new UnprocessableEntityException(e.message)),
+      ),
+      mergeMap((_: Q) =>
+        !!_
+          ? of(undefined)
+          : throwError(
+              () => new NotFoundException(`Question with id '${id}' not found`),
+            ),
+      ),
+    );
+  /**
+   * Add question with current date
+   * @param question to add
+   * @return {Observable<CreateQuestionDto>}
+   * @private
+   */
+  private;
+  _addDateQuestion = (
+    question: CreateQuestionDto,
+  ): Observable<CreateQuestionDto> =>
+    of({
+      ...question,
+      date: new Date().getTime(),
+    });
 
   /**
    * Function to parse date and return timestamp
