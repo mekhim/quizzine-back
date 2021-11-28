@@ -2,6 +2,9 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Exclude, Expose, Type } from 'class-transformer';
 @Exclude()
 export class TagEntity {
+  constructor(partial: Partial<TagEntity>) {
+    Object.assign(this, partial);
+  }
   @ApiProperty({
     name: 'id',
     description: 'Unique identifier in the database',

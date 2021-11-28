@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  UseInterceptors,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -25,17 +26,16 @@ import { QuestionEntity } from './entities/question.entity';
 import { HandlerParams } from './validators/handler-params';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
+import { HttpInterceptor } from '../interceptors/http.interceptor';
 
 @ApiTags('questions')
 @Controller('questions')
+@UseInterceptors(HttpInterceptor)
 export class QuestionsController {
   constructor(private readonly _questionsService: QuestionsService) {}
 
   /**
    * Handler to answer to GET /questions route
-   *
-   * @param {HandlerParams} params list of route params to take question id
-   *
    * @returns Observable<QuestionEntity[]>
    */
   @ApiOkResponse({
@@ -106,12 +106,12 @@ export class QuestionsController {
   }
 
   /**
-   * Handler to answer to PUT /questions/:id route
+   * Handler to answer to PUT /questions/:name route
    *
-   * @param {HandlerParams} params list of route params to take question id
-   * @param updateQuestionDto
+   * @param {HandlerParams} params list of route params to take tag name
+   * @param updateTagDto
    *
-   * @returns Observable<QuestionEntity>
+   * @returns Observable<QTagEntity>
    */
   @ApiOkResponse({
     description: 'The question has been successfully updated',

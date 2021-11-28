@@ -2,7 +2,18 @@
  * This script is to insert initial data inside the collection users of the database quizzine
  * You can use it with mongo-shell or a tool like Robo3T
  */
-
+db.getCollection('tags').drop();
+db.getCollection('tags').insertMany([
+  {
+    name: 'fruit',
+    image: 'https://randomuser.me/portraits/men/55.jpg',
+  },
+  {
+    name: 'dessert',
+    image: 'https://randomuser.me/portraits/men/55.jpg',
+  },
+]);
+db.getCollection('users').drop();
 db.getCollection('users').insertMany([
   {
     image: 'https://randomuser.me/portraits/men/55.jpg',

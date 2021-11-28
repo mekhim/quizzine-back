@@ -14,6 +14,7 @@ export class UpdateQuestionDto {
     example: 'Comment est votre blanquette ?',
   })
   @IsString()
+  @IsNotEmpty()
   question: string;
 
   @ApiProperty({

@@ -1,32 +1,37 @@
 import {
   ConflictException,
   Injectable,
+  Logger,
   NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { QUESTIONS } from '../data/questions';
 import { QuestionEntity } from './entities/question.entity';
 import {
   catchError,
   defaultIfEmpty,
   filter,
-  find,
-  findIndex,
-  from,
+  finalize,
   map,
   mergeMap,
   Observable,
   of,
+  tap,
   throwError,
 } from 'rxjs';
 import { QuestionsDao } from './dao/questions.dao';
 import { Question as Q } from './schemas/question.schema';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
-
+import { TagsService } from '../tags/tags.service';
+import { CreateTagDto } from '../tags/dto/create-tag.dto';
+import { Error } from 'mongoose';
+import { TagEntity } from '../tags/entities/tag.entity';
 @Injectable()
 export class QuestionsService {
-  constructor(private readonly _questionsDao: QuestionsDao) {}
+  constructor(
+    private readonly _questionsDao: QuestionsDao,
+    private readonly _tagsSercice: TagsService,
+  ) {}
 
   /**
    * return all the existing questions in the database
@@ -72,13 +77,14 @@ export class QuestionsService {
           : throwError(new UnprocessableEntityException()),
       ),
       map((_: Q) => new QuestionEntity(_)),
+      mergeMap((_: QuestionEntity) => this._createTagsQuestion(_)),
     );
 
   /**
    * Update a question in the data base
    * @param {string} id of the question to update
    * @param question data to update
-   * @returns {Observable<QestionEntity>}
+   * @returns {Observable<QuestionEntity>}
    */
   update = (
     id: string,
@@ -127,14 +133,29 @@ export class QuestionsService {
    * @return {Observable<CreateQuestionDto>}
    * @private
    */
-  private;
-  _addDateQuestion = (
+  private _addDateQuestion = (
     question: CreateQuestionDto,
   ): Observable<CreateQuestionDto> =>
     of({
       ...question,
       date: new Date().getTime(),
     });
+
+  /**
+   * add tags of the question that are not already in the db
+   * @param question whose tags are added in the database
+   */
+  private _createTagsQuestion = (
+    question: QuestionEntity,
+  ): Observable<QuestionEntity> =>
+    of(question).pipe(
+      map((_: QuestionEntity) =>
+        _.tags.map((__: string) =>
+          this._tagsSercice.create(new CreateTagDto(__)).subscribe(),
+        ),
+      ),
+      map(() => question),
+    );
 
   /**
    * Function to parse date and return timestamp

@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  UseInterceptors,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -25,9 +26,11 @@ import { UserEntity } from './entities/user.entity';
 import { HandlerParams } from './validators/handler-params';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { HttpInterceptor } from '../interceptors/http.interceptor';
 
 @ApiTags('users')
 @Controller('users')
+@UseInterceptors(HttpInterceptor)
 export class UsersController {
   /**
    * Class constructor
