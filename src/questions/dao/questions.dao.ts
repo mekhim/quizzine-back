@@ -26,6 +26,15 @@ export class QuestionsDao {
       defaultIfEmpty(undefined),
     );
 
+  findManyByTags = (tags: string[]): Observable<Question[]> =>
+    from(this._questionModel.find({ tags: { $in: tags } })).pipe(
+      filter((docs: QuestionDocument[]) => !!docs && docs.length > 0),
+      map((docs: QuestionDocument[]) =>
+        docs.map((_: QuestionDocument) => _.toJSON()),
+      ),
+      defaultIfEmpty(undefined),
+    );
+
   /**
    * Returns one question of the data base matching id in parameter
    * @param {string} id of the question in the data base

@@ -8,6 +8,8 @@ import { QuestionsDao } from './questions/dao/questions.dao';
 import { UsersModule } from './users/users.module';
 import { TagsService } from './tags/tags.service';
 import { TagsModule } from './tags/tags.module';
+import { QuizzesController } from './quizzes/quizzes.controller';
+import { QuizzesModule } from './quizzes/quizzes.module';
 import * as Config from 'config';
 
 @Module({
@@ -16,6 +18,7 @@ import * as Config from 'config';
     UsersModule,
     MongooseModule.forRoot(Config.get<string>('mongodb.uri')),
     TagsModule,
+    QuizzesModule,
   ],
   providers: [Logger],
 })

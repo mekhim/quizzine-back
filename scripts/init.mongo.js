@@ -201,6 +201,46 @@ db.getCollection('questions').insertMany([
     date: '2021-11-28T15:36:46.685Z',
     tags: ['fromage', 'france'],
   },
+  {
+    question:
+      "Est ce qu'il a été mis au point un robot qui detek une mouche qui a été sur un cadav en campagne, qui rentre dans les maisons, qui va sur du pain ou du beurre ?",
+    answers: [
+      "J'entends pas l'interlocuteur",
+      'Non pas encore',
+      "Oui biensûr, et c'est robotcop qui met la mouche en prison même",
+    ],
+    date: '2021-11-28T15:36:46.685Z',
+    tags: ['secret'],
+  },
+  {
+    question: 'Quand la série "Derrick" s\'est arrêtée, son scénariste avait ?',
+    answers: ['84 ans', 'Honte', '74 ans', '94 ans'],
+    date: '2021-11-28T15:36:46.685Z',
+    tags: ['secret'],
+  },
+  {
+    question:
+      'En 1945 un groupe clandestin de combattants juifs fut fondé pour punir les criminels de guerre nazis. Quel était leur nom ?',
+    answers: [
+      'Les Inglorious Basterds',
+      'Les Avengers',
+      'La justice League',
+      'Les Rabbins des bois',
+    ],
+    date: '2021-11-28T15:36:46.685Z',
+    tags: ['secret'],
+  },
+  {
+    question: "Qu'est ce que le parapluie Bulgare ?",
+    answers: [
+      'Un parapluie armé développé par le KGB',
+      'Un parapluie en Bulgarie',
+      'Un resto-basket en Slovénie',
+      'Une position sexuelle en Ukraine',
+    ],
+    date: '2021-11-28T15:36:46.685Z',
+    tags: ['secret'],
+  },
 ]);
 
 db.getCollection('tags').drop();

@@ -7,6 +7,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { QuestionsModule } from './questions/questions.module';
 import { UsersModule } from './users/users.module';
 import { TagsModule } from './tags/tags.module';
+import { QuizzesModule } from './quizzes/quizzes.module';
 
 async function bootstrap(config: AppConfig, swaggerConfig: SwaggerConfig) {
   const app = await NestFactory.create(AppModule);
@@ -25,11 +26,12 @@ async function bootstrap(config: AppConfig, swaggerConfig: SwaggerConfig) {
     .setVersion(swaggerConfig.version)
     .addTag('users')
     .addTag('tags')
+    .addTag('quizzes')
     .addTag(swaggerConfig.tag)
     .build();
 
   const document = SwaggerModule.createDocument(app, options, {
-    include: [QuestionsModule, UsersModule, TagsModule],
+    include: [QuestionsModule, UsersModule, TagsModule, QuizzesModule],
   });
 
   SwaggerModule.setup('documentation', app, document);
