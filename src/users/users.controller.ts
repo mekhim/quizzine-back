@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Logger,
   Param,
   Post,
   Put,
@@ -27,6 +28,7 @@ import { HandlerParams } from './validators/handler-params';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { HttpInterceptor } from '../interceptors/http.interceptor';
+import { HandlerParamsUsername } from './validators/handler-params-username';
 
 @ApiTags('users')
 @Controller('users')
@@ -53,6 +55,7 @@ export class UsersController {
   findAll(): Observable<UserEntity[] | void> {
     return this._usersService.findAll();
   }
+  /*
 
   @ApiOkResponse({
     description: 'Returns the user for the given "id"',
@@ -71,6 +74,14 @@ export class UsersController {
   @Get(':id')
   findOne(@Param() params: HandlerParams): Observable<UserEntity> {
     return this._usersService.findOne(params.id);
+  }
+*/
+  @Get(':username')
+  findOneByName(
+    @Param() params: HandlerParamsUsername,
+  ): Observable<UserEntity> {
+    Logger.log('coucou');
+    return this._usersService.findOneByUsername(params.username);
   }
 
   /**
