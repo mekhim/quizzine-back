@@ -7,7 +7,7 @@ db.getCollection('questions').drop();
 db.getCollection('questions').insertMany([
   {
     question: 'Comment est votre blanquette ?',
-    answers: ['Bonne', 'mauvaise', "il a dit qu'elle était bonne, il l'a dit"],
+    answers: ['Bonne', 'Mauvaise', "Il a dit qu'elle était bonne, il l'a dit"],
     tags: ['viande', 'france'],
     date: '2021-11-28T15:36:46.685Z',
   },
