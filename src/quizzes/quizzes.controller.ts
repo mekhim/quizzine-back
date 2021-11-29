@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Logger, Param, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Logger,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiNotFoundResponse,
@@ -10,7 +18,9 @@ import {
 import { QuestionEntity } from '../questions/entities/question.entity';
 import { Observable } from 'rxjs';
 import { QuizzesService } from './quizzes.service';
-import { HandlerParams } from './validators/handler-params';
+import { HandlerParamsTags } from './validators/handler-params-tags';
+import { SubmittedQuizDto } from './dto/submitted-quiz.dto';
+import { HandlerParamsQuiz } from './validators/handler-params-quiz';
 
 @ApiTags('quizzes')
 @Controller('quizzes')
@@ -19,7 +29,7 @@ export class QuizzesController {
   /**
    * Handler to answer to GET /quiz/:tags route
    *
-   * @param {HandlerParams} params list of route params to take quiz tags
+   * @param {HandlerParamsTags} params list of route params to take quiz tags
    *
    * @returns Observable<QuestionEntity[]>
    */
@@ -40,11 +50,26 @@ export class QuizzesController {
     allowEmptyValue: false,
   })
   @Get()
-  getQuiz(@Query() params: HandlerParams): Observable<QuestionEntity[] | void> {
+  getQuiz(
+    @Query() params: HandlerParamsTags,
+  ): Observable<QuestionEntity[] | void> {
     return this._quizzesService.findQuiz(
+      params.quizSize,
       Array.isArray(params.tags) && params.tags.length > 3
         ? params.tags.slice(0, 2)
         : params.tags,
+    );
+  }
+
+  @Post()
+  submitQuiz(@Body() handlerParamsQuiz: HandlerParamsQuiz): {
+    totalAnswers: number;
+    goodAnswers: number;
+    exp: number;
+  } {
+    return this._quizzesService.submitQuiz(
+      handlerParamsQuiz.questions,
+      handlerParamsQuiz.userId,
     );
   }
 }

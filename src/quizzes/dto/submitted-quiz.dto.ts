@@ -3,17 +3,28 @@ import {
   ArrayMaxSize,
   ArrayMinSize,
   IsArray,
+  IsMongoId,
   IsNotEmpty,
   IsString,
   Length,
 } from 'class-validator';
 
 export class SubmittedQuizDto {
-  QUIZZES_SIZE = 10;
-
-  @ArrayMinSize(10)
-  @ArrayMaxSize(10)
-  @IsArray()
+  @IsMongoId()
   @IsNotEmpty()
-  quiz: string[][];
+  userId: string;
+
+  @IsArray()
+  @ArrayMinSize(1)
+  @ArrayMaxSize(10)
+  @IsString({ each: true })
+  @IsNotEmpty()
+  questions: string[];
+
+  @IsArray()
+  @ArrayMinSize(1)
+  @ArrayMaxSize(10)
+  @IsString({ each: true })
+  @IsNotEmpty()
+  answers: string[];
 }

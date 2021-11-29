@@ -44,7 +44,7 @@ export class QuestionsService {
       defaultIfEmpty(undefined),
     );
 
-  findManeByTags = (tags: string[]): Observable<QuestionEntity[] | void> =>
+  findManyByTags = (tags: string[]): Observable<QuestionEntity[] | void> =>
     this._questionsDao.findManyByTags(tags).pipe(
       filter((_: Q[]) => !!_),
       map((_: Q[]) => _.map((__: Q) => new QuestionEntity(__))),
