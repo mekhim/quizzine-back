@@ -11,6 +11,7 @@ import { TagsModule } from './tags/tags.module';
 import { AuthModule } from './auth/auth.module';
 import * as Config from 'config';
 import { AppController } from './app.controller';
+import { AuthService } from './auth/auth.service';
 
 @Module({
   imports: [
