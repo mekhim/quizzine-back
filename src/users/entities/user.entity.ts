@@ -6,12 +6,31 @@ import { UserStatsEntity } from './user-stats.entity';
 export class UserEntity {
   @ApiProperty({
     name: 'id',
-    description: 'Unique identifier in the databse',
+    description: 'Unique identifier in the database',
     example: '5763cd4dc378a38ecd387737',
   })
   @Expose()
   @Type(() => String)
   id: string;
+
+  //todo: faire les commentaores
+  @ApiProperty({
+    name: 'username',
+    description: 'Unique identifier in the database',
+    example: 'Michel',
+  })
+  @Expose()
+  @Type(() => String)
+  username: string;
+
+  @ApiProperty({
+    name: 'password',
+    description: 'Password of an user',
+    example: 'P4$sWoRD!',
+  })
+  @Exclude()
+  @Type(() => String)
+  password: string;
 
   @ApiProperty({
     name: 'image',

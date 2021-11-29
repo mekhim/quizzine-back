@@ -44,6 +44,20 @@ export class UsersDao {
       defaultIfEmpty(undefined),
     );
 
+  /**
+   * Returns one user of the list matching username in parameter
+   *
+   * @param {string} username of the user in the db
+   *
+   * @return {Observable<User | void >}
+   */
+  findByUsername = (username: string): Observable<User | void> =>
+    from(this._userModel.findOne({ username: username })).pipe(
+      filter((doc: UserDocument) => !!doc),
+      map((doc: UserDocument) => doc.toJSON()),
+      defaultIfEmpty(undefined),
+    );
+
   save = (user: CreateUserDto): Observable<User> =>
     from(new this._userModel(user).save()).pipe(
       map((doc: UserDocument) => doc.toJSON()),

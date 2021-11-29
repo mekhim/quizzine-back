@@ -62,6 +62,23 @@ export class UsersService {
       map((_: User) => new UserEntity(_)),
     );
 
+  findOneByUsername = (username: string): Observable<UserEntity> =>
+    this._usersDao.findByUsername(username).pipe(
+      catchError((e) =>
+        throwError(() => new UnprocessableEntityException(e.message)),
+      ),
+      mergeMap((_: User) =>
+        !!_
+          ? of(new UserEntity(_))
+          : throwError(
+              () =>
+                new NotFoundException(
+                  `User with username '${username}' not found`,
+                ),
+            ),
+      ),
+    );
+
   update = (id: string, user: UpdateUserDto): Observable<UserEntity> =>
     this._usersDao.findByIdAndUpdate(id, user).pipe(
       catchError((e) =>
