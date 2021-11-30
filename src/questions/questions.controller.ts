@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import {
@@ -27,6 +28,7 @@ import { HandlerParams } from './validators/handler-params';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { HttpInterceptor } from '../interceptors/http.interceptor';
+import { JwtAuthGuard } from '../auth/jwt-auth.guards';
 
 @ApiTags('questions')
 @Controller('questions')
@@ -46,6 +48,7 @@ export class QuestionsController {
     description: 'No questions in the database',
   })
   @Get()
+  @UseGuards(JwtAuthGuard)
   findAll(): Observable<QuestionEntity[] | void> {
     return this._questionsService.findAll();
   }
@@ -71,6 +74,7 @@ export class QuestionsController {
     type: String,
     allowEmptyValue: false,
   })
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param() params: HandlerParams): Observable<QuestionEntity> {
     return this._questionsService.findOne(params.id);
@@ -99,6 +103,7 @@ export class QuestionsController {
     type: CreateQuestionDto,
   })
   @Post()
+  @UseGuards(JwtAuthGuard)
   create(
     @Body() createQuestionDto: CreateQuestionDto,
   ): Observable<QuestionEntity> {
@@ -140,6 +145,7 @@ export class QuestionsController {
     type: UpdateQuestionDto,
   })
   @Put(':id')
+  @UseGuards(JwtAuthGuard)
   update(
     @Param() params: HandlerParams,
     @Body() updateQuestionDto: UpdateQuestionDto,
@@ -170,6 +176,7 @@ export class QuestionsController {
     type: String,
     allowEmptyValue: false,
   })
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   delete(@Param() params: HandlerParams): Observable<void> {
     return this._questionsService.delete(params.id);

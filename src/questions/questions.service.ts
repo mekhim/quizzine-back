@@ -24,8 +24,7 @@ import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { TagsService } from '../tags/tags.service';
 import { CreateTagDto } from '../tags/dto/create-tag.dto';
-import { Error } from 'mongoose';
-import { TagEntity } from '../tags/entities/tag.entity';
+
 @Injectable()
 export class QuestionsService {
   constructor(

@@ -1,6 +1,7 @@
 import {
   ConflictException,
   Injectable,
+  Logger,
   NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
@@ -20,6 +21,7 @@ import { User } from './schemas/user.schema';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Stats } from './users.types';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -119,6 +121,7 @@ export class UsersService {
       ...user,
       image: 'https://randomuser.me/api/portraits/lego/6.jpg',
       stats: this._defaultStats(),
+      password: bcrypt.hashSync(user.password, 10),
       isAdmin: false,
     });
 

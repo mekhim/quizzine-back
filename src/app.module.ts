@@ -10,7 +10,11 @@ import { TagsService } from './tags/tags.service';
 import { TagsModule } from './tags/tags.module';
 import { QuizzesController } from './quizzes/quizzes.controller';
 import { QuizzesModule } from './quizzes/quizzes.module';
+import { AuthModule } from './auth/auth.module';
 import * as Config from 'config';
+import { AuthService } from './auth/auth.service';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './auth/jwt-auth.guards';
 
 @Module({
   imports: [
@@ -18,6 +22,7 @@ import * as Config from 'config';
     UsersModule,
     MongooseModule.forRoot(Config.get<string>('mongodb.uri')),
     TagsModule,
+    AuthModule,
     QuizzesModule,
   ],
   providers: [Logger],

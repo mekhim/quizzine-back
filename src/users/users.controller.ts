@@ -3,9 +3,11 @@ import {
   Controller,
   Delete,
   Get,
+  Logger,
   Param,
   Post,
   Put,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import {
@@ -27,6 +29,8 @@ import { HandlerParams } from './validators/handler-params';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { HttpInterceptor } from '../interceptors/http.interceptor';
+import { HandlerParamsUsername } from './validators/handler-params-username';
+import { JwtAuthGuard } from '../auth/jwt-auth.guards';
 
 @ApiTags('users')
 @Controller('users')
@@ -50,6 +54,7 @@ export class UsersController {
   })
   @ApiNoContentResponse({ description: 'No user exists in database' })
   @Get()
+  @UseGuards(JwtAuthGuard)
   findAll(): Observable<UserEntity[] | void> {
     return this._usersService.findAll();
   }
@@ -68,9 +73,18 @@ export class UsersController {
     type: String,
     allowEmptyValue: false,
   })
-  @Get(':id')
+  @UseGuards(JwtAuthGuard)
+  @Get('id/:id')
   findOne(@Param() params: HandlerParams): Observable<UserEntity> {
     return this._usersService.findOne(params.id);
+  }
+
+  @Get('username/:username')
+  @UseGuards(JwtAuthGuard)
+  findOneByName(
+    @Param() params: HandlerParamsUsername,
+  ): Observable<UserEntity> {
+    return this._usersService.findOneByUsername(params.username);
   }
 
   /**
@@ -97,6 +111,7 @@ export class UsersController {
     type: CreateUserDto,
   })
   @Post()
+  @UseGuards(JwtAuthGuard)
   create(@Body() createUserDto: CreateUserDto): Observable<UserEntity> {
     return this._usersService.create(createUserDto);
   }
@@ -133,6 +148,7 @@ export class UsersController {
   })
   @ApiBody({ description: 'Payload to update a user', type: UpdateUserDto })
   @Put(':id')
+  @UseGuards(JwtAuthGuard)
   update(
     @Param() params: HandlerParams,
     @Body() updateUserDto,
@@ -164,6 +180,7 @@ export class UsersController {
     allowEmptyValue: false,
   })
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   delete(@Param() params: HandlerParams): Observable<void> {
     return this._usersService.delete(params.id);
   }

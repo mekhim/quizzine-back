@@ -13,7 +13,6 @@ export class UserEntity {
   @Type(() => String)
   id: string;
 
-  //todo: faire les commentaores
   @ApiProperty({
     name: 'username',
     description: 'Unique identifier in the database',
@@ -30,7 +29,7 @@ export class UserEntity {
   })
   @Exclude()
   @Type(() => String)
-  password: string;
+  password?: string;
 
   @ApiProperty({
     name: 'image',
