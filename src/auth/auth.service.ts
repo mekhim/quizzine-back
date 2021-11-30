@@ -3,9 +3,11 @@ import { UsersService } from '../users/users.service';
 import { UserEntity } from '../users/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { from, lastValueFrom, Observable, switchMap } from 'rxjs';
+import { from, lastValueFrom, mergeMap, Observable, switchMap } from 'rxjs';
 import { matches } from 'class-validator';
 import { LoginDto } from './dto/login.dto';
+import { CreateUserDto } from '../users/dto/create-user.dto';
+import { LoginResponseInterface } from './dto/login-response.interface';
 
 @Injectable()
 export class AuthService {
@@ -39,11 +41,12 @@ export class AuthService {
 
   login(username: string, password: string) {
     return this._usersService.findOneByUsername(username).pipe(
-      switchMap((userFound: UserEntity) => {
+      mergeMap((userFound: UserEntity) => {
         if (userFound) {
           return from(this.comparePasswords(password, userFound.password)).pipe(
-            switchMap((matches: boolean) => {
+            mergeMap((matches: boolean) => {
               if (matches) {
+                console.log(userFound);
                 return this.generateJWT({ ...userFound, password: undefined });
               } else {
                 throw new HttpException(
@@ -55,6 +58,18 @@ export class AuthService {
           );
         } else {
           throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+        }
+      }),
+    );
+  }
+
+  register(create: CreateUserDto) {
+    return this._usersService.create(create).pipe(
+      mergeMap((user: UserEntity) => {
+        if (user) {
+          return this.login(create.username, create.password);
+        } else {
+          throw new HttpException('User not found', HttpStatus.CONFLICT);
         }
       }),
     );

@@ -79,6 +79,21 @@ export class UsersController {
     return this._usersService.findOne(params.id);
   }
 
+  @ApiOkResponse({
+    description: 'Returns the user for the given "username"',
+    type: UserEntity,
+  })
+  @ApiNotFoundResponse({
+    description:
+      'User with the given "username" doesn\'t exist in the database',
+  })
+  @ApiBadRequestResponse({ description: 'Parameter provided is not good' })
+  @ApiParam({
+    name: 'username',
+    description: 'Unique identifier of the user in the database',
+    type: String,
+    allowEmptyValue: false,
+  })
   @Get('username/:username')
   //@UseGuards(JwtAuthGuard)
   findOneByName(

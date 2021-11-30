@@ -13,12 +13,15 @@ import { LoginResponseInterface } from './dto/login-response.interface';
 import { JwtAuthGuard } from './jwt-auth.guards';
 import {
   ApiBadRequestResponse,
+  ApiConflictResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
 import { UserEntity } from '../users/entities/user.entity';
+import { CreateQuestionDto } from '../questions/dto/create-question.dto';
+import { CreateUserDto } from '../users/dto/create-user.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -35,6 +38,26 @@ export class AuthController {
   @Post('login')
   login(@Body() loginDto: LoginDto): Observable<LoginResponseInterface> {
     return this._authService.login(loginDto.username, loginDto.password).pipe(
+      map((jwt: string) => {
+        return {
+          acces_token: jwt,
+          token_type: 'JWT',
+          expires_in: 3000,
+        };
+      }),
+    );
+  }
+
+  @ApiOkResponse({
+    description: 'Returns the token for the given created user',
+  })
+  @ApiConflictResponse({
+    description: 'The user already exists in the database',
+  })
+  @ApiBadRequestResponse({ description: 'Parameter provided is not good' })
+  @Post('register')
+  register(@Body() create: CreateUserDto): Observable<LoginResponseInterface> {
+    return this._authService.register(create).pipe(
       map((jwt: string) => {
         return {
           acces_token: jwt,

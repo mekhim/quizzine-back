@@ -8,7 +8,7 @@ export type TagDocument = Tag & Document;
   toJSON: {
     virtuals: true,
     transform: (doc: any, ret: any) => {
-      delete ret.id;
+      delete ret._id;
     },
   },
   versionKey: false,
