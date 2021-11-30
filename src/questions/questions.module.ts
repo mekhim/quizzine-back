@@ -7,6 +7,7 @@ import { Question, QuestionSchema } from './schemas/question.schema';
 import { TagsModule } from '../tags/tags.module';
 
 @Module({
+  exports: [QuestionsService],
   imports: [
     MongooseModule.forFeature([
       { name: Question.name, schema: QuestionSchema },
