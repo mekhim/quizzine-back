@@ -11,11 +11,27 @@ import { LoginDto } from './dto/login.dto';
 import { Observable, map } from 'rxjs';
 import { LoginResponseInterface } from './dto/login-response.interface';
 import { JwtAuthGuard } from './jwt-auth.guards';
+import {
+  ApiBadRequestResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiParam,
+  ApiTags,
+} from '@nestjs/swagger';
+import { UserEntity } from '../users/entities/user.entity';
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly _authService: AuthService) {}
 
+  @ApiOkResponse({
+    description: 'Returns the token for the given username/password',
+  })
+  @ApiNotFoundResponse({
+    description: "User with the username doesn't exist in the database",
+  })
+  @ApiBadRequestResponse({ description: 'Parameter provided is not good' })
   @Post('login')
   login(@Body() loginDto: LoginDto): Observable<LoginResponseInterface> {
     return this._authService.login(loginDto.username, loginDto.password).pipe(

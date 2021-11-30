@@ -8,6 +8,7 @@ import { QuestionsModule } from './questions/questions.module';
 import { UsersModule } from './users/users.module';
 import { TagsModule } from './tags/tags.module';
 import { QuizzesModule } from './quizzes/quizzes.module';
+import { AuthModule } from './auth/auth.module';
 
 async function bootstrap(config: AppConfig, swaggerConfig: SwaggerConfig) {
   const app = await NestFactory.create(AppModule);
@@ -24,6 +25,7 @@ async function bootstrap(config: AppConfig, swaggerConfig: SwaggerConfig) {
     .setTitle(swaggerConfig.title)
     .setDescription(swaggerConfig.description)
     .setVersion(swaggerConfig.version)
+    .addTag('auth')
     .addTag('users')
     .addTag('tags')
     .addTag('quizzes')
@@ -31,7 +33,13 @@ async function bootstrap(config: AppConfig, swaggerConfig: SwaggerConfig) {
     .build();
 
   const document = SwaggerModule.createDocument(app, options, {
-    include: [QuestionsModule, UsersModule, TagsModule, QuizzesModule],
+    include: [
+      QuestionsModule,
+      UsersModule,
+      TagsModule,
+      QuizzesModule,
+      AuthModule,
+    ],
   });
 
   SwaggerModule.setup('documentation', app, document);
