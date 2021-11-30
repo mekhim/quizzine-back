@@ -99,7 +99,8 @@ export class TagsService {
   private _addTag = (tag: CreateTagDto): Observable<CreateTagDto> =>
     of({
       ...tag,
-      image: 'image/tag/default.png',
+      image:
+        'https://cdn-tam.ouest-france.fr/media/cache/thumb_400/nourriture-explication-tte-modeler-du-mot-nourriture.png',
     });
 
   /**

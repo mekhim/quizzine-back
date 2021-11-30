@@ -38,12 +38,8 @@ export class AuthController {
   @Post('login')
   login(@Body() loginDto: LoginDto): Observable<LoginResponseInterface> {
     return this._authService.login(loginDto.username, loginDto.password).pipe(
-      map((jwt: string) => {
-        return {
-          acces_token: jwt,
-          token_type: 'JWT',
-          expires_in: 3000,
-        };
+      map((resp: LoginResponseInterface) => {
+        return resp;
       }),
     );
   }
@@ -58,12 +54,8 @@ export class AuthController {
   @Post('register')
   register(@Body() create: CreateUserDto): Observable<LoginResponseInterface> {
     return this._authService.register(create).pipe(
-      map((jwt: string) => {
-        return {
-          acces_token: jwt,
-          token_type: 'JWT',
-          expires_in: 3000,
-        };
+      map((resp: LoginResponseInterface) => {
+        return resp;
       }),
     );
   }
