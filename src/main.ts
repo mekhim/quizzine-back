@@ -34,6 +34,9 @@ async function bootstrap(config: AppConfig, swaggerConfig: SwaggerConfig) {
 
   SwaggerModule.setup('documentation', app, document);
 
+  // enable CORS for NG Application's calls
+  await app.enableCors({ origin: config.cors });
+
   await app.listen(config.port, config.host);
 }
 bootstrap(
