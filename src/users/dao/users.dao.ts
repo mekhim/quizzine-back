@@ -58,11 +58,26 @@ export class UsersDao {
       defaultIfEmpty(undefined),
     );
 
+  /**
+   * Check if user already exists with index and add it in user list
+   *
+   * @param {CreateUserDto} user to create
+   *
+   * @return {Observable<User>}
+   */
   save = (user: CreateUserDto): Observable<User> =>
     from(new this._userModel(user).save()).pipe(
       map((doc: UserDocument) => doc.toJSON()),
     );
 
+  /**
+   * Update a user in user list
+   *
+   * @param {string} id
+   * @param {UpdateUserDto} user
+   *
+   * @return {Observable<User | void>}
+   */
   findByIdAndUpdate = (
     id: string,
     user: UpdateUserDto,
@@ -78,6 +93,13 @@ export class UsersDao {
       defaultIfEmpty(undefined),
     );
 
+  /**
+   * Delete a user in user list
+   *
+   * @param {string} id
+   *
+   * @return {Observable<User | void>}
+   */
   findByIdAndRemove = (id: string): Observable<User | void> =>
     from(this._userModel.findByIdAndRemove(id)).pipe(
       filter((doc: UserDocument) => !!doc),

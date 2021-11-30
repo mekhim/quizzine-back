@@ -25,8 +25,18 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
+  /**
+   * Class constructor
+   *
+   * @param {UsersDao} _usersDao instance of DAO
+   */
   constructor(private readonly _usersDao: UsersDao) {}
 
+  /**
+   * Returns all existing user in the list
+   *
+   * @returns {Observable<UserEntity[] | void>}
+   */
   findAll = (): Observable<UserEntity[] | void> =>
     this._usersDao.find().pipe(
       filter((_: User[]) => !!_),
@@ -34,6 +44,13 @@ export class UsersService {
       defaultIfEmpty(undefined),
     );
 
+  /**
+   * Returns one user of the list matching id in parameter
+   *
+   * @param {string} id of the user
+   *
+   * @returns {Observable<UserEntity>}
+   */
   findOne = (id: string): Observable<UserEntity> =>
     this._usersDao.findById(id).pipe(
       catchError((e) =>
@@ -48,6 +65,11 @@ export class UsersService {
       ),
     );
 
+  /**
+   * Check if user already exists and add it in user list
+   * @param user to create
+   * @returns {Observable<UserEntity>}
+   */
   create = (user: CreateUserDto): Observable<UserEntity> =>
     this._addUser(user).pipe(
       mergeMap((_: CreateUserDto) => this._usersDao.save(_)),
@@ -64,6 +86,13 @@ export class UsersService {
       map((_: User) => new UserEntity(_)),
     );
 
+  /**
+   * Update a user in user list
+   * @param {string} id of the user to update
+   * @param user data to update
+   *
+   * @returns {Observable<UserEntity>}
+   */
   findOneByUsername = (username: string): Observable<UserEntity> =>
     this._usersDao.findByUsername(username).pipe(
       catchError((e) =>
@@ -102,6 +131,14 @@ export class UsersService {
       ),
     );
 
+  /**
+   * Deletes one user in people list
+   *
+   * @param {string} id of the user to delete
+   *
+   * @returns {Observable<void>}
+   */
+
   delete = (id: string): Observable<void> =>
     this._usersDao.findByIdAndRemove(id).pipe(
       catchError((e) =>
@@ -116,6 +153,15 @@ export class UsersService {
       ),
     );
 
+  /**
+   * Add user with good data in user list
+   *
+   * @param user to add
+   *
+   * @returns {Observable<CreateUserDto>}
+   *
+   * @private
+   */
   private _addUser = (user: CreateUserDto): Observable<CreateUserDto> =>
     of({
       ...user,
@@ -125,6 +171,13 @@ export class UsersService {
       isAdmin: false,
     });
 
+  /**
+   * Function to create default stats
+   *
+   * @returns {Stats}
+   *
+   * @private
+   */
   private _defaultStats = (): Stats => {
     const stats = {
       exp: 0,

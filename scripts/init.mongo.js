@@ -294,4 +294,19 @@ db.getCollection('users').insertMany([
   },
 ]);
 
+db.getCollection('questions').insertMany([
+  {
+    question: 'Comment est votre blanquette ?',
+    answers: ['oui', 'non', 'pourquoi pas'],
+    tags: ['viande', 'Gastronomie française'],
+  },
+  {
+    tags: ['viande', 'Gastronomie française', 'oss117'],
+    answers: ['oui', 'non', 'pourquoi pas'],
+    question: 'Comment est votre blanquette ?',
+  },
+]);
+
 db.getCollection('users').find({});
+
+db.getCollection('questions').find({});
