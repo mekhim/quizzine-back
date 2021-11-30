@@ -10,8 +10,9 @@ import { TagsService } from './tags/tags.service';
 import { TagsModule } from './tags/tags.module';
 import { AuthModule } from './auth/auth.module';
 import * as Config from 'config';
-import { AppController } from './app.controller';
 import { AuthService } from './auth/auth.service';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './auth/jwt-auth.guards';
 
 @Module({
   imports: [
@@ -22,6 +23,5 @@ import { AuthService } from './auth/auth.service';
     AuthModule,
   ],
   providers: [Logger],
-  controllers: [AppController],
 })
 export class AppModule {}

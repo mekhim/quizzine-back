@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import {
@@ -29,6 +30,7 @@ import { UpdateTagDto } from './dto/update-tag.dto';
 import { CreateQuestionDto } from '../questions/dto/create-question.dto';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { HttpInterceptor } from '../interceptors/http.interceptor';
+import { JwtAuthGuard } from '../auth/jwt-auth.guards';
 
 @ApiTags('tags')
 @Controller('tags')
@@ -47,6 +49,7 @@ export class TagsController {
     description: 'No tags in the database',
   })
   @Get()
+  @UseGuards(JwtAuthGuard)
   findAll(): Observable<TagEntity[] | void> {
     return this._tagsService.findAll();
   }
@@ -73,6 +76,7 @@ export class TagsController {
     allowEmptyValue: false,
   })
   @Get(':name')
+  @UseGuards(JwtAuthGuard)
   findOne(@Param() params: HandlerParams): Observable<TagEntity> {
     return this._tagsService.findOne(params.name);
   }
@@ -117,6 +121,7 @@ export class TagsController {
     type: UpdateTagDto,
   })
   @Put(':name')
+  @UseGuards(JwtAuthGuard)
   update(
     @Param() params: HandlerParams,
     @Body() updateTagDto: UpdateTagDto,
@@ -148,6 +153,7 @@ export class TagsController {
     allowEmptyValue: false,
   })
   @Delete(':name')
+  @UseGuards(JwtAuthGuard)
   delete(@Param() params: HandlerParams): Observable<void> {
     return this._tagsService.delete(params.name);
   }
