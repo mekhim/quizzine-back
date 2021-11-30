@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -21,6 +22,7 @@ import { QuizzesService } from './quizzes.service';
 import { HandlerParamsTags } from './validators/handler-params-tags';
 import { SubmittedQuizDto } from './dto/submitted-quiz.dto';
 import { HandlerParamsQuiz } from './validators/handler-params-quiz';
+import { JwtAuthGuard } from '../auth/jwt-auth.guards';
 
 @ApiTags('quizzes')
 @Controller('quizzes')
@@ -50,6 +52,7 @@ export class QuizzesController {
     allowEmptyValue: false,
   })
   @Get()
+  //@UseGuards(JwtAuthGuard)
   getQuiz(
     @Query() params: HandlerParamsTags,
   ): Observable<QuestionEntity[] | void> {
@@ -62,6 +65,7 @@ export class QuizzesController {
   }
 
   @Post()
+  //@UseGuards(JwtAuthGuard)
   submitQuiz(@Body() handlerParamsQuiz: HandlerParamsQuiz): {
     totalAnswers: number;
     goodAnswers: number;

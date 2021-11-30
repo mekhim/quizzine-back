@@ -48,7 +48,7 @@ export class QuestionsController {
     description: 'No questions in the database',
   })
   @Get()
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   findAll(): Observable<QuestionEntity[] | void> {
     return this._questionsService.findAll();
   }
@@ -74,7 +74,7 @@ export class QuestionsController {
     type: String,
     allowEmptyValue: false,
   })
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param() params: HandlerParams): Observable<QuestionEntity> {
     return this._questionsService.findOne(params.id);
@@ -103,7 +103,7 @@ export class QuestionsController {
     type: CreateQuestionDto,
   })
   @Post()
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   create(
     @Body() createQuestionDto: CreateQuestionDto,
   ): Observable<QuestionEntity> {
@@ -145,7 +145,7 @@ export class QuestionsController {
     type: UpdateQuestionDto,
   })
   @Put(':id')
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   update(
     @Param() params: HandlerParams,
     @Body() updateQuestionDto: UpdateQuestionDto,
@@ -176,7 +176,7 @@ export class QuestionsController {
     type: String,
     allowEmptyValue: false,
   })
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   @Delete(':id')
   delete(@Param() params: HandlerParams): Observable<void> {
     return this._questionsService.delete(params.id);

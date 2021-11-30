@@ -49,7 +49,7 @@ export class TagsController {
     description: 'No tags in the database',
   })
   @Get()
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   findAll(): Observable<TagEntity[] | void> {
     return this._tagsService.findAll();
   }
@@ -76,7 +76,7 @@ export class TagsController {
     allowEmptyValue: false,
   })
   @Get(':name')
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   findOne(@Param() params: HandlerParams): Observable<TagEntity> {
     return this._tagsService.findOne(params.name);
   }
@@ -121,7 +121,7 @@ export class TagsController {
     type: UpdateTagDto,
   })
   @Put(':name')
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   update(
     @Param() params: HandlerParams,
     @Body() updateTagDto: UpdateTagDto,
@@ -153,7 +153,7 @@ export class TagsController {
     allowEmptyValue: false,
   })
   @Delete(':name')
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   delete(@Param() params: HandlerParams): Observable<void> {
     return this._tagsService.delete(params.name);
   }

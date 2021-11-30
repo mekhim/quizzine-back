@@ -54,7 +54,7 @@ export class UsersController {
   })
   @ApiNoContentResponse({ description: 'No user exists in database' })
   @Get()
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   findAll(): Observable<UserEntity[] | void> {
     return this._usersService.findAll();
   }
@@ -73,14 +73,14 @@ export class UsersController {
     type: String,
     allowEmptyValue: false,
   })
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   @Get('id/:id')
   findOne(@Param() params: HandlerParams): Observable<UserEntity> {
     return this._usersService.findOne(params.id);
   }
 
   @Get('username/:username')
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   findOneByName(
     @Param() params: HandlerParamsUsername,
   ): Observable<UserEntity> {
@@ -111,7 +111,7 @@ export class UsersController {
     type: CreateUserDto,
   })
   @Post()
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   create(@Body() createUserDto: CreateUserDto): Observable<UserEntity> {
     return this._usersService.create(createUserDto);
   }
@@ -148,7 +148,7 @@ export class UsersController {
   })
   @ApiBody({ description: 'Payload to update a user', type: UpdateUserDto })
   @Put(':id')
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   update(
     @Param() params: HandlerParams,
     @Body() updateUserDto,
@@ -180,7 +180,7 @@ export class UsersController {
     allowEmptyValue: false,
   })
   @Delete(':id')
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   delete(@Param() params: HandlerParams): Observable<void> {
     return this._usersService.delete(params.id);
   }
