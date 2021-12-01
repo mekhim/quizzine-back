@@ -14,6 +14,11 @@ export class SubmittedQuizDto {
   @IsNotEmpty()
   userId: string;
 
+  @ApiProperty({
+    name: 'questions',
+    description: "Array of questions' id",
+    example: '["61a7342542c47e5db40c2884","61a7342542c47e5db40c289f"]',
+  })
   @IsArray()
   @ArrayMinSize(1)
   @ArrayMaxSize(10)
@@ -21,6 +26,11 @@ export class SubmittedQuizDto {
   @IsNotEmpty()
   questions: string[];
 
+  @ApiProperty({
+    name: 'answers',
+    description: 'Array of answers',
+    example: '["Bonne","84 ans"]',
+  })
   @IsArray()
   @ArrayMinSize(1)
   @ArrayMaxSize(10)

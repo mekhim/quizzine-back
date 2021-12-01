@@ -51,6 +51,12 @@ export class QuizzesController {
     type: [String],
     allowEmptyValue: false,
   })
+  @ApiQuery({
+    name: 'quizSize',
+    description: 'Size of the quiz',
+    type: Number,
+    allowEmptyValue: false,
+  })
   @Get()
   //@UseGuards(JwtAuthGuard)
   getQuiz(

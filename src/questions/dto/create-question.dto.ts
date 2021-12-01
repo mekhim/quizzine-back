@@ -36,7 +36,7 @@ export class CreateQuestionDto {
     example: '["viande","Gastronomie française"]',
   })
   @IsArray()
-  @ArrayMinSize(2)
+  @ArrayMinSize(1)
   @IsString({ each: true })
   @IsNotEmpty()
   tags: string[];

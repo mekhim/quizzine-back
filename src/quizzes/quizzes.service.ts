@@ -1,5 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import {
+  async,
+  combineLatest,
   defaultIfEmpty,
   filter,
   from,
@@ -7,6 +9,8 @@ import {
   mergeMap,
   Observable,
   of,
+  pipe,
+  reduce,
   tap,
   throwError,
 } from 'rxjs';
@@ -17,10 +21,14 @@ import { UserStatsDto } from '../users/dto/user-stats.dto';
 import any = jasmine.any;
 import { Question } from './quizzes-types';
 import { UserStatsEntity } from '../users/entities/user-stats.entity';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class QuizzesService {
-  constructor(private readonly _questionsService: QuestionsService) {}
+  constructor(
+    private readonly _questionsService: QuestionsService,
+    private readonly _UserService: UsersService,
+  ) {}
   /**
    * return all the existing questions in the database
    * @returns {Observable<QuestionEntity[] | void>}
@@ -41,28 +49,24 @@ export class QuizzesService {
     userId: string,
   ): { totalAnswers: number; goodAnswers: number; exp: number } {
     const exp = 0;
-    let goodAnswers = 0;
+    const goodAnswers = 0;
     const totalAnswers = questions.length;
 
-    Logger.log(questions[0].questionId);
+    /*
 
-    questions.map((_: Question) =>
+    questions.map((question: Question) =>
       this._questionsService
-        .findOne(_.questionId)
+        .findOne(question.questionId)
         .pipe(
-          tap((__: QuestionEntity) => Logger.log(__.question)),
-          map((__: QuestionEntity) =>
-            __.answers[0] === _.answer
-              ? Logger.log(++goodAnswers)
-              : Logger.log(goodAnswers),
+          map((questionFound: QuestionEntity) =>
+            !!questionFound && questionFound.answers[0] === question.answer
+              ? 1
+              : 0,
           ),
         )
-        .subscribe(() => {
-          goodAnswers;
-        }),
+        .subscribe((a) => (goodAnswers += a)),
     );
-
-    Logger.log('allo :' + goodAnswers);
+    */
 
     return { totalAnswers: totalAnswers, goodAnswers: goodAnswers, exp: exp };
   }

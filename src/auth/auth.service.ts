@@ -65,7 +65,7 @@ export class AuthService {
                       access_token: jwt,
                       token_type: 'JWT',
                       expires_in: 3000,
-                      idUser: userFound.id,
+                      userId: userFound.id,
                     };
                   }),
                 );
