@@ -58,7 +58,7 @@ export class QuizzesController {
     allowEmptyValue: false,
   })
   @Get()
-  //@UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   getQuiz(
     @Query() params: HandlerParamsTags,
   ): Observable<QuestionEntity[] | void> {
@@ -71,7 +71,7 @@ export class QuizzesController {
   }
 
   @Post()
-  //@UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   submitQuiz(
     @Body() handlerParamsQuiz: HandlerParamsQuiz,
   ): Observable<number[]> {
