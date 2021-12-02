@@ -2,8 +2,8 @@
 
 Quizzine est un site de quiz pour tester ses connaissances sur la cuisine et tout ce qui s'en rapproche.
 Réalisé en 6 jours dans le cadre de l'UE NWT à la fac de Nancy par : 
--Emanuel Gady
--Maxime Choné
+- Emanuel Gady
+- Maxime Choné
 
 API de l'application Quizzine
 
