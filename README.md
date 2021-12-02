@@ -2,7 +2,7 @@
 
 API de l'application Quizzine
 
-Documentation à l'adresse : http://localhost:3000/documentation
+Documentation à l'adresse : http://localhost:3000/documentation une fois le serveur lancé
 
 
 
