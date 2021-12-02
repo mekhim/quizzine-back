@@ -67,7 +67,7 @@ $ yarn install
 
 
 
-## Running the app
+## Lancement
 
 ```bash
 # Lancement de l'API
