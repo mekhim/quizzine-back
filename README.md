@@ -61,8 +61,8 @@ $ cd quizzine-back
 $ yarn install
 ```
 
-À l'aide de Robo3t, une fois connecté à mongo:
-- créez une base de données "quizzine"
+À l'aide de Robo3t, une fois connecté à mongo, il vous faut:
+- créer une base de données "quizzine"
 - exécuter le script suivant : https://github.com/mekhim/quizzine-back/blob/master/scripts/init.mongo.js dans la console de Robo3t afin de peupler la base de données
 
 
