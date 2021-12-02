@@ -71,6 +71,6 @@ $ yarn install
 
 ```bash
 # Lancement de l'API
-$ ng serve
+$ nest start
 ```
 
