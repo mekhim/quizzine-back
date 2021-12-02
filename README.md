@@ -74,3 +74,6 @@ $ yarn install
 $ nest start
 ```
 
+## Documentation
+http://localhost:3000/documentation/
+
