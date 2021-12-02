@@ -272,7 +272,7 @@ db.getCollection('users').insertMany([
     image: 'https://randomuser.me/portraits/men/55.jpg',
     email: 'michel.berger@gmail.com',
     username: 'Michel',
-    password: '$2b$10$9liPLo1XzP8tauPmwjNpVOoPV.bahf/i5LaUlXF6EeItm0tbQ93QG',
+    password: '$2b$10$vzEg7QenilWlmMgK1f8nt.1yAk6o/p3obYzIzEzFWA8GLPGcIdN8a',
     stats: {
       exp: 200,
       goodAnswers: 1000,
@@ -284,7 +284,7 @@ db.getCollection('users').insertMany([
     image: 'https://randomuser.me/portraits/men/56.jpg',
     email: 'france.gall@gmail.com',
     username: 'France',
-    password: '$2b$10$arLzcPaQoVQCdqxmz.cmCOE.KHOu0SXXSvatC.WhNV1zrRV7POVAi',
+    password: '$2b$10$A3.AhOZW.TlzsfpdJEQLB.zFgPF3qRktNe5PvqwGTh8fipmGnegRS',
     stats: {
       exp: 160,
       goodAnswers: 990,
