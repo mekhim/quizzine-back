@@ -1,9 +1,15 @@
 ## Description
 
+Quizzine est un site de quiz pour tester ses connaissances sur la cuisine et tout ce qui s'en rapproche.
+Réalisé en 6 jours dans le cadre de l'UE NWT à la fac de Nancy par : 
+-Emanuel Gady
+-Maxime Choné
+
 API de l'application Quizzine
 
 Documentation à l'adresse : http://localhost:3000/documentation une fois le serveur lancé
 
+Tous les endpoints sont gardés par une JWT Guard, sauf auth/login et auth/register
 
 
 
@@ -36,24 +42,31 @@ cli version              : 8.1.5
 
 ```
 
+## Liens
+
+- Partie front : https://github.com/mekhim/quizzine
+- Partie back : https://github.com/mekhim/quizzine-back
 
 
-## Installation
+## Installation 
+
+Pour commencer, il faut un conteneur Docker Mongodb sur votre machine et un gestionnaire de bdd comme Robo3t.
+
 
 ```bash
-$ npm install
+# Clonage du repo git du back
+$ git clone https://github.com/mekhim/quizzine-back
+$ cd quizzine-back
+# Installation des dépendances
+$ yarn install
 ```
+
+
 
 ## Running the app
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+# Lancement de l'appli
+$ ng serve
 ```
 
