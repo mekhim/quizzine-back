@@ -1,13 +1,15 @@
 ## Description
 
-Back du projet Quizzine
+API de l'application Quizzine
+
+Fonctionnalité
 
 -nest info
 
 [Nest CLI]
 Nest CLI Version : 8.1.5 
 
-[Nest Platform Information]
+[Nest Platform Information]:
 platform-express version : 8.2.3
 schematics version       : 8.0.5
 mongoose version         : 9.0.1
