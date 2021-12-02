@@ -2,13 +2,8 @@
 
 API de l'application Quizzine
 
-endpoints:
-- GET users/
-- GET users/id/:id
-- GET users/username/:username
-- POST users/
-- PUT users/
-- DELETE users/:id
+Documentation à l'adresse : http://localhost:3000/documentation
+
 
 
 
