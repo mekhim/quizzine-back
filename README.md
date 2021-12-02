@@ -66,7 +66,7 @@ $ yarn install
 ## Running the app
 
 ```bash
-# Lancement de l'appli
+# Lancement de l'API
 $ ng serve
 ```
 
