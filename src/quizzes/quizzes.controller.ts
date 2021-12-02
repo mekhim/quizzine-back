@@ -72,11 +72,9 @@ export class QuizzesController {
 
   @Post()
   //@UseGuards(JwtAuthGuard)
-  submitQuiz(@Body() handlerParamsQuiz: HandlerParamsQuiz): {
-    totalAnswers: number;
-    goodAnswers: number;
-    exp: number;
-  } {
+  submitQuiz(
+    @Body() handlerParamsQuiz: HandlerParamsQuiz,
+  ): Observable<number[]> {
     return this._quizzesService.submitQuiz(
       handlerParamsQuiz.questions,
       handlerParamsQuiz.userId,

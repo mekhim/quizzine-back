@@ -11,16 +11,13 @@ import {
   of,
   pipe,
   reduce,
+  switchMap,
   tap,
   throwError,
 } from 'rxjs';
 import { QuestionEntity } from '../questions/entities/question.entity';
 import { QuestionsService } from '../questions/questions.service';
-import { SubmittedQuizDto } from './dto/submitted-quiz.dto';
-import { UserStatsDto } from '../users/dto/user-stats.dto';
-import any = jasmine.any;
 import { Question } from './quizzes-types';
-import { UserStatsEntity } from '../users/entities/user-stats.entity';
 import { UsersService } from '../users/users.service';
 
 @Injectable()
@@ -39,36 +36,38 @@ export class QuizzesService {
   ): Observable<QuestionEntity[] | void> =>
     this._questionsService.findManyByTags(tags).pipe(
       map((_: QuestionEntity[]) =>
-        !!_ && _.length > 0 ? this.shuffle(_).slice(0, quizSize) : [],
+        !!_ && _.length > 0
+          ? this.shuffle(this.shuffleAnswers(_)).slice(0, quizSize)
+          : [],
       ),
       defaultIfEmpty(undefined),
     );
 
-  submitQuiz(
+  submitQuiz = (
     questions: Question[],
     userId: string,
-  ): { totalAnswers: number; goodAnswers: number; exp: number } {
-    const exp = 0;
-    const goodAnswers = 0;
-    const totalAnswers = questions.length;
-
-    /*
-
-    questions.map((question: Question) =>
-      this._questionsService
-        .findOne(question.questionId)
-        .pipe(
-          map((questionFound: QuestionEntity) =>
-            !!questionFound && questionFound.answers[0] === question.answer
-              ? 1
-              : 0,
-          ),
-        )
-        .subscribe((a) => (goodAnswers += a)),
+  ): Observable<number[]> => {
+    return of(questions).pipe(
+      map((questions: Question[]) =>
+        questions.map((question: Question) =>
+          this._questionsService
+            .findOne(question.questionId)
+            .pipe(
+              map((questionFound: QuestionEntity) =>
+                !!questionFound && questionFound.answers[0] === question.answer
+                  ? 1
+                  : 0,
+              ),
+            ),
+        ),
+      ),
+      switchMap((_) => combineLatest(_)),
     );
-    */
+  };
 
-    return { totalAnswers: totalAnswers, goodAnswers: goodAnswers, exp: exp };
+  shuffleAnswers(question: QuestionEntity[]) {
+    question.map((_: QuestionEntity) => (_.answers = this.shuffle(_.answers)));
+    return question;
   }
 
   shuffle(array) {

@@ -21,7 +21,6 @@ export class SubmittedQuizDto {
   })
   @IsArray()
   @ArrayMinSize(1)
-  @ArrayMaxSize(10)
   @IsString({ each: true })
   @IsNotEmpty()
   questions: string[];
@@ -33,7 +32,6 @@ export class SubmittedQuizDto {
   })
   @IsArray()
   @ArrayMinSize(1)
-  @ArrayMaxSize(10)
   @IsString({ each: true })
   @IsNotEmpty()
   answers: string[];
